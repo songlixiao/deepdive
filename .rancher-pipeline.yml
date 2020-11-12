@@ -1,0 +1,17 @@
+stages:
+- name: build
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./Dockerfile
+      buildContext: .
+      tag: deepdive/svc:v1
+      registry: http://172.19.80.110:8081/repository/docker-bsd/
+- name: devploy
+  steps:
+  - applyAppConfig:
+      catalogTemplate: cattle-global-data:helm3-library-kong
+      version: 1.9.1
+      name: deepdive
+      targetNamespace: default
+timeout: 60
+notification: {}
